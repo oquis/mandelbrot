@@ -35,16 +35,16 @@ function drawFractal({
   iterations = 5,
 } = {}) {
   // Create Canvas
-  let myCanvas = document.createElement("canvas");
-  myCanvas.width = 600;
-  myCanvas.height = 600;
-  document.body.appendChild(myCanvas);
+  const canvas = document.getElementById("canvas");
 
-  const ctx = myCanvas.getContext("2d");
+  const canvasContext = canvas.getContext("2d");
+
+  // Clear the canvas
+  canvasContext.clearRect(0, 0, canvas.width, canvas.height);
 
   // Start drawing
-  for (let x = 0; x < myCanvas.width; x++) {
-    for (let y = 0; y < myCanvas.height; y++) {
+  for (let x = 0; x < canvas.width; x++) {
+    for (let y = 0; y < canvas.height; y++) {
       const belongsToSet = isInMandelbrotSet(
         x / magnificationFactor - panX,
         y / magnificationFactor - panY,
@@ -53,10 +53,38 @@ function drawFractal({
 
       if (belongsToSet) {
         // Draw a black pixel
-        ctx.fillRect(x, y, 1, 1);
+        canvasContext.fillRect(x, y, 1, 1);
       }
     }
   }
 }
 
 drawFractal();
+
+// setup event handlers
+(() => {
+  const controls = document.forms["controls"];
+
+  /**
+   * Handle form submition
+   */
+  controls.onsubmit = () => {
+    console.log("draw fractal");
+
+    drawFractal({
+      magnificationFactor: controls["zoom"].value,
+      panX: controls["panX"].value,
+      panY: controls["panY"].value,
+      iterations: controls["iterations"].value,
+    });
+
+    console.log("fractal drawn");
+
+    // cancel form submission
+    return false;
+  };
+
+  controls.onreset = () => {
+    drawFractal();
+  };
+})();

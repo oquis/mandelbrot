@@ -1,7 +1,46 @@
 <!DOCTYPE html>
 
 <html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+
   <body>
+    <h1>Vamos a dibujar Mandelbot sets</h1>
+
+    <form id="controls">
+      <fieldset>
+        <legend>Imagínate que te vas</legend>
+
+        <label>
+          <span>zoom</span>
+          <input type="number" name="zoom" value="200" />
+        </label>
+
+        <label>
+          <span>X pan</span>
+          <input type="number" name="panX" value="2" />
+        </label>
+
+        <label>
+          <span>Y pan</span>
+          <input type="number" name="panY" value="1.5" />
+        </label>
+
+        <label>
+          <span>iterations</span>
+          <input type="number" name="iterations" value="5" />
+        </label>
+      </fieldset>
+
+      <button type="reset">Reset</button>
+      <button type="submit">Dibujar</button>
+    </form>
+
+    <br />
+
+    <canvas id="canvas" height="600" width="600" />
+
     <script type="text/javascript" src="./index.js"></script>
   </body>
 </html>
