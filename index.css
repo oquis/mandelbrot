@@ -1,0 +1,83 @@
+html {
+  font-family: Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+/*
+  Control fields
+*/
+
+.controls .form-fields {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.controls fieldset {
+  flex: 1;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.controls input {
+  border: none;
+  border-bottom: 1px solid grey;
+  text-align: center;
+}
+
+.controls .offset-inputs {
+  display: flex;
+}
+
+.controls .offset-inputs > label:first-of-type {
+  margin-right: 10px;
+}
+
+.controls .offset-inputs span {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+/*
+  Control actions
+*/
+
+form.controls .form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+form.controls .form-actions button {
+  flex: 1;
+  height: 50px;
+  font-size: 20px;
+  background: none;
+  border: 1px solid;
+}
+
+/*
+  Canvas
+*/
+
+main {
+  text-align: center;
+  overflow: hidden;
+  overflow-x: scroll;
+}
+
+main canvas {
+  border: 7px inset;
+}
+
+/*
+  Base styles
+*/
+
+form label {
+  display: flex;
+  align-items: flex-end;
+}
+
+form label :first-child {
+  margin-right: 5px;
+}

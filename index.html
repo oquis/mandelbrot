@@ -7,43 +7,53 @@
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0"
     />
+
+    <link rel="stylesheet" href="./index.css" />
   </head>
 
   <body>
     <h1>Vamos a dibujar Mandelbot sets</h1>
 
-    <form id="controls">
-      <fieldset>
-        <legend>Imagínate que te vas</legend>
+    <form id="controls" class="controls">
+      <div class="form-fields">
+        <fieldset>
+          <legend>Iterations</legend>
 
-        <label>
-          <span>zoom</span>
-          <input type="number" name="zoom" value="200" />
-        </label>
+          <input type="number" name="iterations" value="5" class="big" />
+        </fieldset>
 
-        <label>
-          <span>X pan</span>
-          <input type="number" name="panX" value="2" step="0.1" />
-        </label>
+        <fieldset>
+          <legend>Zoom</legend>
 
-        <label>
-          <span>Y pan</span>
-          <input type="number" name="panY" value="1.5" step="0.1" />
-        </label>
+          <input type="number" name="zoom" value="200" class="big" />
+        </fieldset>
 
-        <label>
-          <span>iterations</span>
-          <input type="number" name="iterations" value="5" />
-        </label>
-      </fieldset>
+        <fieldset>
+          <legend>Offset</legend>
 
-      <button type="reset">Reset</button>
-      <button type="submit">Dibujar</button>
+          <div class="offset-inputs">
+            <label>
+              <span>X</span>
+              <input type="number" name="offsetX" value="2" step="0.1" />
+            </label>
+
+            <label>
+              <span>Y</span>
+              <input type="number" name="offsetY" value="1.5" step="0.1" />
+            </label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="form-actions">
+        <button type="reset">Reset</button>
+        <button type="submit">Dibujar</button>
+      </div>
     </form>
 
-    <br />
-
-    <canvas id="canvas" height="600" width="600" />
+    <main>
+      <canvas id="canvas" height="600" width="600" />
+    </main>
 
     <script type="text/javascript" src="./index.js"></script>
   </body>

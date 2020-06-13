@@ -30,8 +30,8 @@ function isInMandelbrotSet(x, y, iterations) {
 
 function drawFractal({
   magnificationFactor = 200,
-  panX = 2,
-  panY = 1.5,
+  offsetX = 2,
+  offsetY = 1.5,
   iterations = 5,
 } = {}) {
   // Create Canvas
@@ -46,8 +46,8 @@ function drawFractal({
   for (let x = 0; x < canvas.width; x++) {
     for (let y = 0; y < canvas.height; y++) {
       const belongsToSet = isInMandelbrotSet(
-        x / magnificationFactor - panX,
-        y / magnificationFactor - panY,
+        x / magnificationFactor - offsetX,
+        y / magnificationFactor - offsetY,
         iterations
       );
 
@@ -73,8 +73,8 @@ drawFractal();
 
     drawFractal({
       magnificationFactor: controls["zoom"].value,
-      panX: controls["panX"].value,
-      panY: controls["panY"].value,
+      offsetX: controls["offsetX"].value,
+      offsetY: controls["offsetY"].value,
       iterations: controls["iterations"].value,
     });
 
