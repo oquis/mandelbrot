@@ -18,14 +18,16 @@ function isInMandelbrotSet(x, y, iterations) {
 
     realComponentOfResult = tempRealComponent;
     imaginaryComponentOfResult = tempImaginaryComponent;
-  }
 
-  if (realComponentOfResult * imaginaryComponentOfResult < 5) {
-    // In the Mandelbrot set
-    return true;
+    const result = realComponentOfResult * imaginaryComponentOfResult;
+    // Return a number as a percentage
+    const resultPercent = (i / iterations) * 100;
+
+    // Minimum result to break
+    if (result > 1) return resultPercent;
   }
   // Not in the set
-  return false;
+  return 0;
 }
 
 function drawFractal({
@@ -33,6 +35,7 @@ function drawFractal({
   offsetX = 2,
   offsetY = 1.5,
   iterations = 5,
+  color = 0,
 } = {}) {
   // Create Canvas
   const canvas = document.getElementById("canvas");
@@ -51,8 +54,13 @@ function drawFractal({
         iterations
       );
 
-      if (belongsToSet) {
+      if (belongsToSet === 0) {
         // Draw a black pixel
+        canvasContext.fillStyle = "#000";
+        canvasContext.fillRect(x, y, 1, 1);
+      } else {
+        // Draw a colorful pixel
+        canvasContext.fillStyle = `hsl(${color}, 100%, ${belongsToSet}%`;
         canvasContext.fillRect(x, y, 1, 1);
       }
     }
@@ -76,6 +84,7 @@ drawFractal();
       offsetX: controls["offsetX"].value,
       offsetY: controls["offsetY"].value,
       iterations: controls["iterations"].value,
+      color: controls["color"].value,
     });
 
     console.log("fractal drawn");

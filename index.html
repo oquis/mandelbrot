@@ -14,7 +14,7 @@
   <body>
     <h1>Vamos a dibujar Mandelbot sets</h1>
 
-    <form id="controls" class="controls">
+    <form id="controls" class="controls" novalidate>
       <div class="form-fields">
         <fieldset>
           <legend>Iterations</legend>
@@ -25,7 +25,7 @@
         <fieldset>
           <legend>Zoom</legend>
 
-          <input type="number" name="zoom" value="200" class="big" />
+          <input type="number" name="zoom" value="200" step="100" class="big" />
         </fieldset>
 
         <fieldset>
@@ -42,6 +42,12 @@
               <input type="number" name="offsetY" value="1.5" step="0.1" />
             </label>
           </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Base color</legend>
+
+          <input type="number" name="color" value="0" step="1" class="big" />
         </fieldset>
       </div>
 
