@@ -37,8 +37,12 @@ function drawFractal({
   iterations = 5,
   color = 0,
 } = {}) {
+  console.log("draw fractal");
+
   // Create Canvas
   const canvas = document.getElementById("canvas");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 
   const canvasContext = canvas.getContext("2d");
 
@@ -65,9 +69,21 @@ function drawFractal({
       }
     }
   }
+
+  console.log("fractal drawn");
 }
 
-drawFractal();
+const getControlValues = () => {
+  const controls = document.forms["controls"];
+
+  return {
+    magnificationFactor: controls["zoom"].value,
+    offsetX: controls["offsetX"].value,
+    offsetY: controls["offsetY"].value,
+    iterations: controls["iterations"].value,
+    color: controls["color"].value,
+  };
+};
 
 // setup event handlers
 (() => {
@@ -77,17 +93,7 @@ drawFractal();
    * Handle form submition
    */
   controls.onsubmit = () => {
-    console.log("draw fractal");
-
-    drawFractal({
-      magnificationFactor: controls["zoom"].value,
-      offsetX: controls["offsetX"].value,
-      offsetY: controls["offsetY"].value,
-      iterations: controls["iterations"].value,
-      color: controls["color"].value,
-    });
-
-    console.log("fractal drawn");
+    drawFractal(getControlValues());
 
     // cancel form submission
     return false;
@@ -96,4 +102,33 @@ drawFractal();
   controls.onreset = () => {
     drawFractal();
   };
+
+  // resize the canvas to fill browser window dynamically
+  window.addEventListener(
+    "resize",
+    () => {
+      console.log("resize");
+
+      const canvas = document.getElementById("canvas");
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      /**
+       * Your drawings need to be inside this function otherwise they will be reset when
+       * you resize the browser window and the canvas goes will be cleared.
+       */
+      drawFractal({
+        magnificationFactor,
+        offsetX,
+        offsetY,
+        iterations,
+        color,
+      });
+    },
+    false
+  );
 })();
+
+// draw initial fractal
+drawFractal(getControlValues());
