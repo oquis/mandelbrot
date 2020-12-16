@@ -20,6 +20,8 @@ canvas {
 html {
   font-family: Helvetica, sans-serif;
   font-size: 16px;
+  /* global variables */
+  --loadingOverlay: visible;
 }
 
 /*
@@ -144,6 +146,28 @@ main canvas {
   right: 0;
   bottom: 0;
   left: 0;
+}
+
+/*
+  Overlay
+*/
+
+.loading-overlay {
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(182, 182, 182, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: var(--loadingOverlay);
+}
+
+.loading-overlay .overlay-content {
+  font-size: 2em;
 }
 
 /*

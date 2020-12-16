@@ -30,64 +30,84 @@ function isInMandelbrotSet(x, y, iterations) {
   return 0;
 }
 
-function drawFractal({
+function showLoadingOverlay() {
+  const html = document.querySelector('html');
+  html.style.setProperty('--loadingOverlay', 'visible');
+}
+
+function hideLoadingOverlay() {
+  const html = document.querySelector('html');
+  html.style.setProperty('--loadingOverlay', 'hidden');
+}
+
+function drawCanvas({
   magnificationFactor = 200,
   offsetX = 2,
-  offsetY = 1.5,
+  offsetY = 2,
   iterations = 5,
   color = 0,
 } = {}) {
-  console.log("draw fractal");
+  return new Promise((resolve, reject) => {
+    try {
+      // Create Canvas
+      const canvas = document.getElementById('canvas');
+      // TODO: no debería estar aquí, debería estar en eventos
+      // "onload" de la página y "resize" de window
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
 
-  // Create Canvas
-  const canvas = document.getElementById("canvas");
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+      const canvasContext = canvas.getContext('2d');
 
-  const canvasContext = canvas.getContext("2d");
+      setTimeout(() => {
+        // Start drawing
+        for (let x = 0; x < canvas.width; x++) {
+          for (let y = 0; y < canvas.height; y++) {
+            const belongsToSet = isInMandelbrotSet(
+              x / magnificationFactor - offsetX,
+              y / magnificationFactor - offsetY,
+              iterations
+            );
 
-  // Clear the canvas
-  canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Start drawing
-  for (let x = 0; x < canvas.width; x++) {
-    for (let y = 0; y < canvas.height; y++) {
-      const belongsToSet = isInMandelbrotSet(
-        x / magnificationFactor - offsetX,
-        y / magnificationFactor - offsetY,
-        iterations
-      );
-
-      if (belongsToSet === 0) {
-        // Draw a black pixel
-        canvasContext.fillStyle = "#000";
-        canvasContext.fillRect(x, y, 1, 1);
-      } else {
-        // Draw a colorful pixel
-        canvasContext.fillStyle = `hsl(${color}, 100%, ${belongsToSet}%`;
-        canvasContext.fillRect(x, y, 1, 1);
-      }
+            if (belongsToSet === 0) {
+              // Draw a black pixel
+              canvasContext.fillStyle = '#000';
+              canvasContext.fillRect(x, y, 1, 1);
+            } else {
+              // Draw a colorful pixel
+              canvasContext.fillStyle = `hsl(${color}, 100%, ${belongsToSet}%`;
+              canvasContext.fillRect(x, y, 1, 1);
+            }
+          }
+        }
+        resolve(true);
+      }, 100);
+    } catch (error) {
+      reject(error);
     }
-  }
-
-  console.log("fractal drawn");
+  });
 }
 
-const getControlValues = () => {
-  const controls = document.forms["controls"];
+function getControlValues() {
+  const controls = document.forms['controls'];
 
   return {
-    magnificationFactor: controls["zoom"].value,
-    offsetX: controls["offsetX"].value,
-    offsetY: controls["offsetY"].value,
-    iterations: controls["iterations"].value,
-    color: controls["color"].value,
+    magnificationFactor: controls.zoom.value,
+    offsetX: controls.offsetX.value,
+    offsetY: controls.offsetY.value,
+    iterations: controls.iterations.value,
+    color: controls.color.value,
   };
-};
+}
+
+async function drawFractal(values) {
+  showLoadingOverlay();
+  await drawCanvas(values);
+  hideLoadingOverlay();
+}
 
 // setup event handlers
 (() => {
-  const controls = document.forms["controls"];
+  const controls = document.forms['controls'];
 
   /**
    * Handle form submition
@@ -105,26 +125,18 @@ const getControlValues = () => {
 
   // resize the canvas to fill browser window dynamically
   window.addEventListener(
-    "resize",
+    'resize',
     () => {
-      console.log("resize");
-
-      const canvas = document.getElementById("canvas");
+      const canvas = document.getElementById('canvas');
 
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 
       /**
        * Your drawings need to be inside this function otherwise they will be reset when
-       * you resize the browser window and the canvas goes will be cleared.
+       * you resize the browser window and the canvas will be cleared.
        */
-      drawFractal({
-        magnificationFactor,
-        offsetX,
-        offsetY,
-        iterations,
-        color,
-      });
+      drawFractal(getControlValues());
     },
     false
   );
